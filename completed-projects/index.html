@@ -1,0 +1,41 @@
+{% capture content %}
+<script>
+  if (window.innerWidth > 960) {
+    document.body.style.opacity = 0;
+    window.location.replace("/#/completed-projects");
+  }
+</script>
+<div class="project-sidebar">
+  <h3>Selected Projects</h3>
+    <ul class="navlist">
+      {% for page in pages %}
+        {% for post in page.posts %}
+          <li class="nav-item {{ page.title| downcase }}-nav">
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+    <h3 class="note">A full project list is available on request.</h3>
+</div>
+<ul class="post-list">
+	{% for page in pages %}
+    {% for post in page.posts %}
+    <li class="post projects-box {{ page.title | downcase }}-box" data-name="{{post.title}}" data-date="{{post.date | date: "%y%m%d"}}">
+      <a href="{{ post.url }}">
+        <div class="post-image">
+          <img src="{{ post.assets | first }}" />
+          <div class="crop"></div>
+          <div class="title">
+            <span>{{ post.title }}</span>
+          </div>
+        </div>
+        <h3 class="post-title">{{page.parent.title}}_{{post.parent.title}}_{{post.title}}</h3>
+      </a>
+    </li>
+  {% endfor %}
+  {% endfor %}
+  {{ projectnavlist }}
+</ul>
+{% endcapture %}
+{% include 'layouts/default.html' %}

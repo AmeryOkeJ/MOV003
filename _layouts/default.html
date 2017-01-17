@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="color--{{ page.title | downcase }}">
+  <head>
+    <meta charset='UTF-8'>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+
+    <title>{{ site.title }} - {{ page.title }}</title>
+
+    <meta name='description' content='{{ site.meta.description }}'>
+    <meta name='keywords' content='{{ site.keywords }}'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    <!-- for Facebook -->
+    <meta property="og:title" content="{{title}}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="{{permalink}}"/>
+    <meta property="og:image" content="{% for asset in assets limit:1 %}{{asset.permalink}}{% endfor %}"/>
+
+    <!-- for Twitter -->
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="{{title}}"/>
+    <meta name="twitter:image" content="{% for asset in assets limit:1 %}{{asset.permalink}}{% endfor %}"/>
+
+    <link type="application/rss+xml" rel="alternate" title="{{ site.title }}" href="{{ site.meta.feed_url | fallback: site.feed_url }}">
+    <link href='/assets/styles/screen.css' rel='stylesheet'>
+    {% include 'includes/fonts.html' %}
+    {% include 'includes/analytics.html' %}
+  </head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script>
+  if (!window.jQuery) {
+      document.write('<script src="/assets/scripts/jquery-1.10.2.min.js"><\/script>');
+  }
+  </script>
+  {% capture section %}{{ page.url | remove_first:'/' | split:'/' | first }}{% endcapture %}
+  <body class='{{ type }} {{ section }} {{ page.title | downcase }}' id='top'>
+    <div class="intro">
+      <img src="/assets/images/move-in-logo@2x.png" />
+    </div>
+    <div class="container">
+      <header class='main-header'>
+        <div class='wrapper'>
+          <div class="left">
+            <a href='http://move-in.com.au/' class="logo">
+              <h1 class='main-title'>{{site.title}}</h1>
+            </a>
+            <div class="tagline">
+              <h2>Move-In</h2>
+              <h3>Complete<br>Furniture<br>Packages</h3>
+            </div>
+          <a class="menu-link"><img src="/assets/images/nav.png" /></a>
+          </div>
+          <nav id="menu" class="menu" role="navigation">
+            <ul class="level-1">
+              {% for page in site.html_pages %}
+                {% if page.title == 'Home'%}
+                  <li class="filter home-menu{% if section == this %} is-selected{% endif %}">
+                    <a href='/' data-filter=".post">
+                      {{page.title}}
+                    </a>
+                  </li>
+                {% else %}
+                {% if page.title == 'News'%}
+                  {% capture this %}{{ page.title | downcase }}{% endcapture %}
+                  <li class="filter news-menu{% if section == this %} is-selected{% endif %}">
+                    <a href='{{page.url}}' data-filter=".news-box, .news-nav">
+                      {{page.title}}
+                    </a>
+                  </li>
+                {% else %}
+                {% if page.title == 'Projects'%}
+                  {% capture this %}{{ page.title | downcase }}{% endcapture %}
+                  <li class="filter projects-menu has-subnav{% if section == this %} is-selected{% endif %}">
+                    <a href="{{page.url}}" data-filter=".projects-box, .projects-nav" data-filter-sidebar=".nav-item" class="parent-link">
+                      {{page.title}}
+                    </a>
+                    <ul class='level-2'>
+                      <li class="filter all-menu">
+                        <a href="{{page.url}}" data-filter=".projects-box, .projects-nav" data-filter-sidebar=".nav-item">All</a>
+                      </li>
+                      {% for page in page.pages %}
+                        <li class="filter {{page.title |downcase}}-menu{% if page.title == parent.title  %} is-selected{% endif %}">
+                          <a href="{{page.url}}" data-filter=".{{ page.title | downcase }}-box, .projects-nav" data-filter-sidebar=".{{ page.title | downcase }}-nav" >{{page.title}}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                  {% else %}
+                  {% if page.title == 'Campaigns'%}
+                    {% capture this %}{{ page.title | downcase }}{% endcapture %}
+                    <li class="filter current-projects-menu has-subnav{% if section == this %} is-selected{% endif %}">
+                      <a href="{{page.url}}" data-filter=".current-projects-box, .current-projects-nav" data-filter-sidebar=".nav-item" class="parent-link">
+                        {{page.title}}
+                      </a>
+                      <ul class='level-2'>
+                        <li class="filter current-all-menu">
+                          <a href="{{page.url}}" data-filter=".current-projects-box, .current-projects-nav" data-filter-sidebar=".nav-item">All</a>
+                        </li>
+                        {% for page in page.pages %}
+                          <li class="filter {{page.title |downcase}}-menu{% if page.title == parent.title  %} is-selected{% endif %}">
+                            <a href="{{page.url}}" data-filter=".{{ page.title | downcase }}-box, .current-projects-nav" data-filter-sidebar=".{{ page.title | downcase }}-nav" >{{page.title}}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                {% else %}
+                  {% capture this %}{{ page.title | downcase }}{% endcapture %}
+                  <li{% if section == this %} class="is-selected"{% endif %}>
+                    <a href='{{page.url}}'>{{page.title}}</a>
+                  </li>
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </nav>
+          <div class="right">
+            <div class="contact-details">
+              <h4><a href="{{site.meta['say hello link']}}">Say Hello!</a></h4>
+              <p>18 Fanning Street<br>
+                Southbank Victoria<br>
+                3006 Australia<br>
+                Sales 1300 657 687</p>
+            </div>
+            <div class="social-links">
+              <h4>Follow Us</h4>
+              <a href="{{site.meta['instagram']}}">Instagram</a>
+              <a href="{{site.meta['newsletter']}}">Newsletter</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="content">
+      {{ content }}
+      </div>
+      <footer>
+        <span>Move-In</span>
+        <a class="top" href="#top">Back to top</span>
+        <div class="credits">
+          <a class="pac" href="http://designbypac.com">Design by PAC</a>
+          <a class="speak" href="http://margalit.com.au">Built by Sam Margalit</a>
+        </div>
+      </footer>
+      <div class="clear"></div>
+    </div>
+    <script src="/assets/scripts/modernizr.js"></script>
+    <script src='/assets/scripts/fastclick.js'></script>
+    <script src="/assets/scripts/isotope.js"></script>
+    <script src="/assets/scripts/signals.js"></script>
+    <script src="/assets/scripts/hasher.js"></script>
+    <script src="/assets/scripts/crossroads.js"></script>
+    <script src="/assets/scripts/imagesloaded.js"></script>
+    <script src="/assets/scripts/viewport.js"></script>
+    <script src="/assets/scripts/map.js"></script>
+    <script src="/assets/scripts/app.js"></script>
+  </body>
+</html>

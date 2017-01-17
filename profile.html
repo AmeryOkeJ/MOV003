@@ -1,0 +1,54 @@
+{% capture content %}
+
+<script type="text/javascript">
+   $(function(){
+     var imageCount = 2;
+      var whichImage=get_random();
+      var image=new Array(imageCount)
+       image[0] = "<img src=\"/assets/images/Move-Pattern-4.png\" />";
+       image[1] = "<img src=\"/assets/images/Move-Pattern-6.png\" />";
+        function get_random() {
+           var ranNum= Math.floor(Math.random()* imageCount );
+           return ranNum;
+        }
+        $('.p-four').prepend(image[whichImage]);
+    });
+
+    $(function(){
+      var imageCount = 2;
+       var whichImage=get_random();
+       var image=new Array(imageCount)
+        image[0] = "<img src=\"/assets/images/Move-Pattern-2.png\" />";
+        image[1] = "<img src=\"/assets/images/Move-Pattern-5.png\" />";
+         function get_random() {
+            var ranNum= Math.floor(Math.random()* imageCount );
+            return ranNum;
+         }
+         $('.p-five').prepend(image[whichImage]);
+     });
+
+</script>
+
+<div class="p-four pattern"></div>
+<div class="p-five pattern"></div>
+
+
+  <div class="{{title | downcase}}-aside">
+    <span class="bubble first">
+      {{meta['First Bubble Content']}}
+    </span>
+    <span class="quote first">
+      {{meta['First Pull Quote Content']}}
+    </span>
+    <span class="quote second">
+      {{meta['Second Pull Quote Content']}}
+    </span>
+    <span class="bubble second">
+      {{meta['Second Bubble Content']}}
+    </span>
+  </div>
+  <div class="{{title | downcase}}-copy">
+    {{body}}
+  </div>
+{% endcapture %}
+{% include 'layouts/default.html' %}

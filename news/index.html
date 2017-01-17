@@ -1,0 +1,26 @@
+{% capture content %}
+<ul class="post-list">
+  {% for post in posts %}
+  <li class="post news-box y{{post.date | date: "%y"}} {{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}" data-order="{{ post.meta['Priority'] }}" data-name="{{post.title}}" data-date="{% capture box %}{{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}{% endcapture %}{% if box == 'large-rectangle' %}1{% else %}0{% endif %}{{post.date | date: "%y%m%d"}}">
+    <a href="{{ post.url }}">
+      <div class="post-image {{ post.taxonomy['Text Options'] | downcase | replace:' ','-' }}">
+        <img src="{{post.assets | first}}" onload="$(this).fadeIn(200);">
+        <div class="crop"></div>
+        <div class="title">
+          <span><em>{{ post.title }}</em></span>
+        </div>
+      </div>
+      <h3 class="post-title">{{post.parent.title}}{% if post.taxonomy['Category'] | size == "1" %}_{{post.taxonomy['Category']}}{% endif %}_{{post.title}}</h3>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+<div class="project-sidebar">
+  {{body}}
+  <h3>Archives</h3>
+  <span class="filter news-date"><a href="/#/news/y12"data-filter=".news-nav, .y12">2012</a></span>
+  <span class="filter news-date"><a href="/#/news/y13"data-filter=".news-nav, .y13">2013</a></span>
+  <span class="filter news-date"><a href="/#/news/y14"data-filter=".news-nav, .y14">2014</a></span>
+</div>
+{% endcapture %}
+{% include 'layouts/default.html' %}

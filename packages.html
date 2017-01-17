@@ -1,0 +1,73 @@
+<div class="pack_thank_you">
+	<p>Thank you for your enquiry! We’ll respond within 24 hours during business trading hours of Monday – Friday, 8:30am to 5:00pm AEST. In the meantime, explore our Instagram for your interior & styling inspo!
+ </p>
+</div>
+
+{% capture content %}
+<!-- <img src="/assets/images/move-in-logo@2x.png" /> -->
+
+<script type="text/javascript">
+   $(function(){
+     var imageCount = 2;
+      var whichImage=get_random();
+      var image=new Array(imageCount)
+       image[0] = "<img src=\"/assets/images/Move-Pattern-7.png\" />";
+       image[1] = "<img src=\"/assets/images/Move-Pattern-6.png\" />";
+        function get_random() {
+           var ranNum= Math.floor(Math.random()* imageCount );
+           return ranNum;
+        }
+        $('.p-one').prepend(image[whichImage]);
+    });
+
+    $(function(){
+      var imageCount = 2;
+       var whichImage=get_random();
+       var image=new Array(imageCount)
+        image[0] = "<img src=\"/assets/images/Move-Pattern-2.png\" />";
+        image[1] = "<img src=\"/assets/images/Move-Pattern-5.png\" />";
+         function get_random() {
+            var ranNum= Math.floor(Math.random()* imageCount );
+            return ranNum;
+         }
+         $('.p-three').prepend(image[whichImage]);
+     });
+
+</script>
+
+<!-- <div class="p-one pattern"></div>
+<div class="p-two pattern"><img src="/assets/images/Move-Pattern-6.png"/></div>
+<div class="p-three pattern"></div> -->
+
+<div class="project-sidebar">
+  <h3>In-House Packages</h3>
+  {% for asset in assets %}
+    <a href="{{asset.url}}" class="download-link"{% if asset.meta.download == 'yes' %}download{% endif %}>{{asset.meta.name}}</a>
+  {% endfor %}
+  <br>
+  <h3 class="enquire-btn"><a href="mailto:{{meta['Enquiry Email']}};orders@move-in.com.au?subject=In-House Packages Enquiry">Enquire</a></h3>
+
+  <div class="pagination">
+    <a href="{{ parent.url }}">Back</a>
+  </div>
+
+  <div class="share">
+    <h3>Share</h3>
+    <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{permalink}}&p[images][0]={{asset|first}}&p[title]={{title}}%20by%20MOVE-IN">Facebook</a>
+    <a href="http://twitter.com/home?status={{title}}%20by%20MOVE-IN%20—%20{{permalink}}">Twitter</a>
+  </div>
+</div>
+
+  <!-- <div class="{{title | downcase}}-aside">
+    <span class="bubble first">
+      {{meta['First Bubble Content']}}
+    </span>
+    {% for asset in assets %}
+      <a href="{{asset.url}}" class="download-link"{% if asset.meta.download == 'yes' %}download{% endif %}>{{asset.meta.name}}</a>
+    {% endfor %}
+  </div> -->
+  <div class="{{title | downcase}}-copy">
+    {{body}}
+  </div>
+{% endcapture %}
+{% include 'layouts/default.html' %}

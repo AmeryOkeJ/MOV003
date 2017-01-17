@@ -1,0 +1,164 @@
+{% capture content %}
+<ul class="post-list">
+  <li class="post stamp" data-order="0">
+    <a href="#">
+      <div class="title">
+        <span class="stamp1">{{meta['Starburst Copy 1']}}</span>
+        <span class="stamp2">{{meta['Starburst Copy 2']}}</span>
+      </div>
+    </a>
+  </li>
+  {% assign spacers = meta.spacers.value | split: ', '%}
+  {% for spacer in spacers %}
+  <li class="post spacer spacer--{{spacer}}" data-order="0">
+    <a href="#">
+      <div class="title">
+        <span class="stamp2">{{spacer}}</span>
+      </div>
+    </a>
+  </li>
+  {% endfor %}
+  {% for page in site.html_pages | offset: 1%}
+    {% if page.title == "News" %}
+      {% for post in page.posts %}
+        <li class="post news-box y{{post.date | date: "%y"}} {{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}" data-order="{{ post.meta['Priority'] }}" data-name="{{post.title}}" data-date="{% capture box %}{{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}{% endcapture %}{% if box == 'large-rectangle' %}1{% else %}0{% endif %}{{post.date | date: "%y%m%d"}}">
+          <a href="{{ post.url }}">
+            <div class="post-image {{ post.taxonomy['Text Options'] | downcase | replace:' ','-' }}">
+              <img src="{{post.assets | first}}" onload="$(this).fadeIn(200);">
+              <div class="crop"></div>
+              <div class="title">
+                <span><em>{{ post.title }}</em></span>
+              </div>
+            </div>
+            <h3 class="post-title">{{post.parent.title}}{% if post.taxonomy['Category'] | size == "1" %}_{{post.taxonomy['Category']}}{% endif %}_{{post.title}}</h3>
+          </a>
+        </li>
+      {% endfor %}
+      {% capture newsnavlist %}
+        <li class="sidebar news-nav" data-name="999999" data-date="999999">
+          {{page.body}}
+          <h3>Archives</h3>
+          <span class="news-date"><a href="#/news/y12" data-filter=".news-nav, .y12">2012</a></span>
+          <span class="news-date"><a href="#/news/y13" data-filter=".news-nav, .y13">2013</a></span>
+          <span class="news-date"><a href="#/news/y14" data-filter=".news-nav, .y14">2014</a></span>
+        </li>
+      {% endcapture %}
+    {% else %}
+    {% if page.title == "Projects" %}
+      {% for page in page.pages %}
+        <li class="post filter category {{page.title | downcase}}-box" data-order="{{ post.meta['Priority'] }}" data-name="{{page.title}}" data-date="2000001">
+          <a href="{{page.url}}" data-filter=".{{ page.title | downcase }}-box, .{{ page.title | downcase }}-nav, .projects-nav">
+            <div class="post-image">
+              <img src="{{ page.assets | first }}"  onload="$(this).fadeIn(200);"/>
+              <div class="crop"></div>
+              <div class="title">
+                <span class="{{ page.taxonomy['Text Colour'] | downcase }}"><em>{{ page.body }}</em></span>
+              </div>
+            </div>
+            <h3 class="post-title">{{page.parent.title}}_{{page.title}}</h3>
+          </a>
+        </li>
+        {% for post in page.posts %}
+        <li class="post projects-box {{ page.title | downcase }}-box {{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}" data-order="{{ post.meta['Priority'] }}" data-name="{{post.title}}" data-date="{% capture box %}{{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}{% endcapture %}{% if box == 'large-rectangle' %}1{% else %}0{% endif %}{{post.date | date: "%y%m%d"}}">
+          <a href="{{ post.url }}">
+            <div class="post-image">
+              <img src="{{ post.assets | first }}"  onload="$(this).fadeIn(200);">
+              <div class="crop"></div>
+              <div class="title">
+                <span>{{ post.title }}</span>
+              </div>
+            </div>
+            <h3 class="post-title">{{post.parent.title}}_{{post.title}}</h3>
+          </a>
+        </li>
+      {% endfor %}
+      {% endfor %}
+      {% capture projectnavlist %}
+        <li class="sidebar projects-nav" data-name="999999" data-date="999999">
+          <h3>Selected Projects</h3>
+          <ul class="nav-list">
+            {% for page in page.pages %}
+              {% for post in page.posts %}
+                <li class="nav-item {{ page.title| downcase }}-nav" data-name="{{post.title}}">
+                  <a href="{{ post.url }}">{{ post.title }}</a>
+                </li>
+              {% endfor %}
+            {% endfor %}
+            {% for post in site.html_pages['News'].posts %}
+              {% if post.meta['show in projects?'] %}
+                <li class="nav-item {{ page.title| downcase }}-nav" data-name="{{post.title}}">
+                  <a href="{{ post.url }}">{{ post.title }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          <h3 class="note">A full project list is available on request.</h3>
+        </li>
+      {% endcapture %}
+      {% else %}
+      {% if page.title == "Campaigns" %}
+      {% for page in page.pages %}
+        <li class="post filter category {{page.title | downcase}}-box" data-order="{{ post.meta['Priority'] }}" data-name="{{page.title}}" data-date="2000001">
+          <a href="{{page.url}}" data-filter=".{{ page.title | downcase }}-box, .{{ page.title | downcase }}-nav, .current-projects-nav">
+            <div class="post-image">
+              <img src="{{ page.assets | first }}"  onload="$(this).fadeIn(200);"/>
+              <div class="crop"></div>
+              <div class="title">
+                <span class="{{ page.taxonomy['Text Colour'] | downcase }}"><em>{{ page.body }}</em></span>
+              </div>
+            </div>
+            <h3 class="post-title">{{page.parent.title}}_{{page.title}}</h3>
+          </a>
+        </li>
+        {% for post in page.posts %}
+        <li class="post current-projects-box {{ page.title | downcase }}-box {{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}" data-order="{{ post.meta['Priority'] }}" data-name="{{post.title}}" data-date="{% capture box %}{{ post.taxonomy['Box Options'] | downcase | replace:' ','-' }}{% endcapture %}{% if box == 'large-rectangle' %}1{% else %}0{% endif %}{{post.date | date: "%y%m%d"}}">
+          <a href="{{ post.url }}">
+            <div class="post-image">
+              <img src="{{ post.assets | first }}"  onload="$(this).fadeIn(200);">
+              <div class="crop"></div>
+              <div class="title">
+                <span>{{ post.title }}</span>
+              </div>
+            </div>
+            <h3 class="post-title">{{post.parent.title}}_{{post.title}}</h3>
+          </a>
+        </li>
+      {% endfor %}
+      {% endfor %}
+      {% capture currentprojectnavlist %}
+        <li class="sidebar current-projects-nav" data-name="999999" data-date="999999">
+          <h3>Selected Campaigns</h3>
+          <ul class="nav-list">
+            {% for page in page.pages %}
+              {% for post in page.posts %}
+                <li class="nav-item {{ page.title| downcase }}-nav" data-name="{{post.title}}">
+                  <a href="{{ post.url }}">{{ post.title }}</a>
+                </li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+          <h3 class="note">A full project list is available on request.</h3>
+        </li>
+      {% endcapture %}
+    {% else %}
+      {% for post in page.posts %}
+      <li class="post {{page.title | downcase}}-box {{post.taxonomy['Category'] | downcase}}" data-order="{{ post.meta['Priority'] }}" data-name="{{post.title}}" data-date="{{post.date | date: "%y%m%d"}}">
+        <a href="{% if post.parent.title == "Profile" %}{{post.parent.url}}#{{post.title}}{% else %}{{post.url}}{% endif %}">
+          <div class="post-image {{ post.taxonomy['Box Options'] | downcase }}">
+            <img src="{{post.assets | first}}" onload="$(this).fadeIn(200);">
+          </div>
+          <h3 class="post-title">{{post.parent.title}}{% if post.taxonomy['Category'] | size == "1" %}_{{post.taxonomy['Category']}}{% endif %}_{{post.title}}</h3>
+        </a>
+      </li>
+      {% endfor %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+  {% endfor %}
+  {{ projectnavlist }}
+  {{ currentprojectnavlist }}
+  {{ newsnavlist }}
+</ul>
+{% endcapture %}
+
+{% include 'layouts/default.html' %}

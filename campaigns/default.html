@@ -1,0 +1,115 @@
+
+{% if type == 'page' %}
+	{% capture content %}
+	<div class="project-sidebar">
+	  <h3>Selected Campaigns</h3>
+      {% assign sorted_posts = posts.all | sort:'title' %}
+	    <ul class="navlist">
+	    	{% for post in sorted_posts %}
+          <li class="nav-item {{ page.title| downcase }}-nav">
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </li>
+        {% endfor %}
+	    </ul>
+	</div>
+	<ul class="post-list">
+		<li class="post filter category {{title | downcase}}-box" data-name="{{title}}" data-date="2000001">
+      <a href="{{url}}" data-filter=".{{ page.title | downcase }}-box, .{{ page.title | downcase }}-nav, .current-projects-nav">
+        <div class="post-image">
+          <img src="{{ assets | first }}"  onload="$(this).fadeIn(200);"/>
+          <div class="crop"></div>
+          <div class="title">
+            <span class="{{ taxonomy['Text Colour'] | downcase }}"><em>{{ content }}</em></span>
+          </div>
+        </div>
+        <h3 class="post-title">{{parent.title}}_{{title}}</h3>
+      </a>
+    </li>
+	  {% for post in posts %}
+	    <li class="post current-projects-box {{ page.title | downcase }}-box" data-name="{{post.title}}" data-date="{{post.date | date: "%y%m%d"}}">
+	      <a href="{{ post.url }}">
+	        <div class="post-image">
+	          <img src="{{ post.assets | first }}" />
+	          <div class="crop"></div>
+	          <div class="title">
+	            <span>{{ post.title }}</span>
+	          </div>
+	        </div>
+	        <h3 class="post-title">{{parent.title}}_{{post.parent.title}}_{{post.title}}</h3>
+	      </a>
+	    </li>
+		{% endfor %}
+	</ul>
+{% endcapture %}
+{% else %}
+{% capture content %}
+<div class="c-form">
+	<div class="close">CLOSE</div>
+	<div id="wufoo-zt9wz8s068hr8o">
+	Fill out my <a href="https://ameryokej.wufoo.com/forms/zt9wz8s068hr8o">online form</a>.
+	</div>
+	<script type="text/javascript">var zt9wz8s068hr8o;(function(d, t) {
+	var s = d.createElement(t), options = {
+	'userName':'ameryokej',
+	'formHash':'zt9wz8s068hr8o',
+	'autoResize':true,
+	'height':'515',
+	'async':true,
+	'host':'wufoo.com',
+	'header':'show',
+	'ssl':true};
+	s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+	s.onload = s.onreadystatechange = function() {
+	var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+	try { zt9wz8s068hr8o = new WufooForm();zt9wz8s068hr8o.initialize(options);zt9wz8s068hr8o.display(); } catch (e) {}};
+	var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+	})(document, 'script');</script>
+</div>
+
+<div class="post--feature">
+  <img src="{{assets | first}}" />
+  <h3 class="post__title">{{parent.parent.title}}_{{parent.title}}_{{title}}</h3>
+</div>
+<div class="project-images">
+  {% for asset in assets | offset: 1 %}
+    <img src="{{ asset }}">
+  {% endfor %}
+</div>
+<div class="project-sidebar">
+	<h3 class="tablet-title">{{title}}</h3>
+	<!-- <br>
+	<h3 class="enquire">ENQUIRE</h3> -->
+	{{body}}
+	<br>
+	<div class="thank_you">
+		<p>Thank you for your enquiry! We’ll respond within 24 hours during business trading hours of Monday – Friday, 8:30am to 5:00pm AEST. In the meantime, explore our Instagram for your interior & styling inspo!
+   </p>
+	</div>
+	<h3 class="purchase-btn"><a href="mailto:{{meta['Enquiry Email']}};orders@move-in.com.au?subject=Purchase Enquiry">PURCHASE</a></h3>
+	<div class="pagination">
+		<a href="{{ parent.url }}">Back</a>
+		{% if current.next %}<a href="{{ page.next.url }}">Previous Project</a>{% endif %}
+		{% if current.previous %}<a href="{{ page.previous.url }}">Next Project</a>{% endif %}
+	</div>
+	<div class="share">
+		<h3>Share</h3>
+		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{permalink}}&p[images][0]={{asset|first}}&p[title]={{title}}%20by%20MOVE-IN">Facebook</a>
+		<a href="http://twitter.com/home?status={{title}}%20by%20MOVE-IN%20—%20{{permalink}}">Twitter</a>
+	</div>
+</div>
+
+
+<script>
+	document.body.onkeyup = function(e){
+	  {% if current.next %}
+	  if (e.keyCode == '37') { window.location = '{{ page.next.url }}'; }
+	  {% endif %}
+
+	  {% if current.previous %}
+	  if (e.keyCode == '39') { window.location = '{{ page.previous.url }}'; }
+	  {% endif %}
+	};
+</script>
+{% endcapture %}
+{% endif %}
+{% include 'layouts/default.html' %}
